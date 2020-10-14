@@ -3,9 +3,10 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FiClock, FiInfo } from "react-icons/fi";
 import { Map, Marker, TileLayer } from "react-leaflet";
 
-import "../styles/pages/shelter.css";
 import Sidebar from "../components/Sidebar";
 import mapIcon from "../utils/mapIcon";
+
+import "../styles/pages/shelter.css";
 
 export default function Shelter() {
   return (

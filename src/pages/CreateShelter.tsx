@@ -4,8 +4,8 @@ import { Map, Marker, TileLayer } from "react-leaflet";
 import { FiPlus } from "react-icons/fi";
 import Sidebar from "../components/Sidebar";
 
-import "../styles/pages/create-shelter.css";
 import mapIcon from "../utils/mapIcon";
+import "../styles/pages/create-shelter.css";
 
 export default function CreateShelter() {
   return (
