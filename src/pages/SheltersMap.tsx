@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { FiPlus, FiArrowRight } from "react-icons/fi";
 import MapMarker from "../images/Local.svg";
 
 import mapIcon from "../utils/mapIcon";
+import api from "../services/api";
+
 import "../styles/pages/shelters-map.css";
 
+interface Shelter {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
 function SheltersMap() {
+  const [shelters, setShelters] = useState<Shelter[]>([]);
+
+  console.log(shelters);
+
+  useEffect(() => {
+    api.get("shelters").then((response) => {
+      setShelters(response.data);
+    });
+  }, []);
+
   return (
     <div id="page-map">
       <aside>
@@ -30,14 +49,27 @@ function SheltersMap() {
       >
         <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <Marker icon={mapIcon} position={[-5.8034145, -35.2203604]}>
-          <Popup className="map-popup" closeButton={false} minWidth={240} maxWidth={240}>
-            Lar das Meninas
-            <Link to="/shelters/1">
-              <FiArrowRight size={20} color="#FFF" />
-            </Link>
-          </Popup>
-        </Marker>
+        {shelters.map((shelter) => {
+          return (
+            <Marker
+              key={shelter.id}
+              icon={mapIcon}
+              position={[shelter.latitude, shelter.longitude]}
+            >
+              <Popup
+                className="map-popup"
+                closeButton={false}
+                minWidth={240}
+                maxWidth={240}
+              >
+                {shelter.name}
+                <Link to={`/shelters/${shelter.id}`}>
+                  <FiArrowRight size={20} color="#FFF" />
+                </Link>
+              </Popup>
+            </Marker>
+          );
+        })}
       </Map>
 
       <Link to="/shelters/create" className="create-shelter">
